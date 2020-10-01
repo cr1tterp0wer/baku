@@ -1,4 +1,5 @@
-import React, {useRef, useEffect} from 'react';
+import React, {useContext, useRef, useEffect} from 'react';
+import {UploadContext} from '../../contexts/uploadContext';
 import * as d3 from 'd3';
 
 interface IProps {
@@ -6,7 +7,6 @@ interface IProps {
 }
 
 //SAMPLE data
-const DATA = 'https://raw.githubusercontent.com/holtzy/data_to_viz/master/Example_dataset/3_TwoNumOrdered_comma.csv';
 const width = 1044;
 const height = 500;
 const hMargin = 50;
@@ -16,15 +16,17 @@ const fvMargin = vMargin*2;
 
 export const ChartCanvas = (props: IProps) => {
 
+	const formatTime = d3.timeParse("%Y-%m-%d");
 	const d3Container = useRef(null);
+	const {dataURL, setDataURL} = useContext(UploadContext);
 
 	useEffect(() => {
+		d3.selectAll('svg *').remove();
 
-		const formatTime = d3.timeParse("%Y-%m-%d");
-		if (props.data && d3Container.current) {
+		if (dataURL && d3Container.current) {
 			const svg = d3.select(d3Container.current);
 
-			d3.csv(DATA, function(d) {
+			d3.csv(dataURL, function(d) {
 				// Format data
 				return { date: formatTime(d.date), value: d.value };
 			}).then(function(data) {
@@ -100,8 +102,9 @@ export const ChartCanvas = (props: IProps) => {
 										.style("opacity", 0);
 						});
 			});
+		} else {
 		}
-	}, [props.data, d3Container.current]);
+	}, [dataURL, d3Container.current]);
 
 	return (
 	<svg

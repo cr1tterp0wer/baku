@@ -1,6 +1,6 @@
 import React from 'react';
 
-function FileUpload() {
+ export const FileUpload = () => {
 	return (
 	<div id='FileUploader'>
 		<div className='input-group mb-3'>
