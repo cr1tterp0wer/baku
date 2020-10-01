@@ -1,0 +1,8 @@
+{
+  "name": "baku",
+  "version": "1.0.0",
+  "description": "baku backend server",
+  "main": "index.js",
+  "author": "Christopher Apodaca",
+  "license": "MIT"
+}
