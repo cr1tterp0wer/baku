@@ -1,26 +1,18 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import MainMenu from './components/menus/mainMenu';
+import FileUpload from './components/elements/fileUpload';
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+	return (
+		<div id='App'>
+			<MainMenu></MainMenu>
+			<div id='Content' className='container p-5'>
+				<section id='UploadWrap'>
+					<FileUpload></FileUpload>
+				</section>
+			</div>
+		</div>
+	);
 }
 
 export default App;
