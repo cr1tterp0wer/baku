@@ -4,6 +4,7 @@ import * as d3 from 'd3';
 interface IProps {
 	data?: numbers[]
 }
+
 //SAMPLE data
 const DATA = 'https://raw.githubusercontent.com/holtzy/data_to_viz/master/Example_dataset/3_TwoNumOrdered_comma.csv';
 const width = 1044;
@@ -13,21 +14,25 @@ const fhMargin = hMargin*2;
 const vMargin = 50;
 const fvMargin = vMargin*2;
 
-
-
-
 export const ChartCanvas = (props: IProps) => {
 
 	const d3Container = useRef(null);
 
 	useEffect(() => {
+
+		const formatTime = d3.timeParse("%Y-%m-%d");
 		if (props.data && d3Container.current) {
 			const svg = d3.select(d3Container.current);
 
 			d3.csv(DATA, function(d) {
 				// Format data
-				return { date: d3.timeParse("%Y-%m-%d")(d.date), value: d.value };
+				return { date: formatTime(d.date), value: d.value };
 			}).then(function(data) {
+
+				// Define the div for the tooltip
+				var div = d3.select("#ChartWrap").append("div")
+						.attr("class", "tooltip")
+						.style("opacity", 0);
 
 				//add xaxis
 				var x = d3.scaleTime()
@@ -58,7 +63,42 @@ export const ChartCanvas = (props: IProps) => {
 							.x(function(d) { return x(d.date); })
 							.y(function(d) { return y(d.value); })
 						);
-					
+
+				// Add the scatterplot
+				svg.selectAll("dot")
+						.data(data)
+				.enter().append("circle")
+						.attr('r', 5)
+						.attr("cx", function(d) { return x(d.date); })
+						.attr("cy", function(d) { return y(d.value); })
+						.attr("data-x", function(d) { return d3.timeFormat('%x')(d.date); })
+						.attr("data-y", function(d) { return d.value; })
+						.attr('transform', 'translate(' + (hMargin) +', '+ vMargin +')')
+						.attr('opacity', '0')
+						.on("mouseover", function(evt) {
+								let target = evt.target;
+								d3.select(this)
+									.transition()
+									.duration(200)
+									.attr('opacity', '1');
+
+								div.transition()
+										.duration(200)
+										.style("opacity", .9);
+								div.html(target.dataset.x + "<br/>"  + target.dataset.y)
+										.style("left", (evt.pageX + 20) + "px")
+										.style("top", (evt.pageY - 50) + "px");
+								})
+						.on("mouseout", function(evt) {
+								d3.select(this)
+									.transition()
+									.duration(100)
+									.attr('opacity', '0');
+
+								div.transition()
+										.duration(500)
+										.style("opacity", 0);
+						});
 			});
 		}
 	}, [props.data, d3Container.current]);
