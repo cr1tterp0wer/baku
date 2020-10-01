@@ -11,13 +11,7 @@ function MainMenu() {
 			<div className='collapse navbar-collapse' id='MainMenuContent'>
 				<ul className='navbar-nav mr-auto'>
 					<li className='nav-item'>
-						<a className='nav-link' href='#'>Home</a>
-					</li>
-					<li className='nav-item'>
-						<a className='nav-link' href='#'>Link</a>
-					</li>
-					<li className='nav-item'>
-						<a className='nav-link' href='#'>Upload</a>
+						<a className='nav-link' href='/'>Home</a>
 					</li>
 				</ul>
 			</div>
