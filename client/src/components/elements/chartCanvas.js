@@ -10,8 +10,8 @@ interface IProps {
 const width = 1044;
 const height = 500;
 const hMargin = 50;
-const fhMargin = hMargin*2;
 const vMargin = 50;
+const fhMargin = hMargin*2;
 const fvMargin = vMargin*2;
 
 export const ChartCanvas = (props: IProps) => {
