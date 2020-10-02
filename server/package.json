@@ -4,5 +4,15 @@
   "description": "baku backend server",
   "main": "index.js",
   "author": "Christopher Apodaca",
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "axios": "^0.20.0",
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "form-data": "^3.0.0",
+    "nodemon": "^2.0.4"
+  },
+  "scripts": {
+    "start": "nodemon index.js"
+  }
 }

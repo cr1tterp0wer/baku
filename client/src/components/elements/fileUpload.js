@@ -1,11 +1,47 @@
 import React, {useContext, useState} from 'react';
 import $ from 'jquery';
+import axios from 'axios';
 
  export const FileUpload = () => {
 	const [fileName, setFileName] = useState('Choose File');
 	const [file, setFile] = useState();
 
-	const sprungeUpload = (filename) => {
+	let reader = new FileReader(),
+	    fileOutput = '';
+
+	reader.onload = function(e) {
+		fileOutput += reader.result;
+	}
+
+	reader.onloadend = function(e) {
+		postSprunge(fileOutput);
+	}
+
+	const postSprunge = async (data) => {
+		let formData = new FormData();
+		formData.append('file', file).then(function() {
+
+		console.log(formData);
+
+		});
+		const config = {
+			method: 'POST',
+			body: formData
+		};
+
+		fetch('/sprunge', config).then((response) => {
+			console.log(response);
+		});
+
+		/*
+		const response = await fetch('/sprunge', {
+			method: 'POST',
+			headers: { 'Content-Type': 'application/json' },
+			body: JSON.stringify({ datapoints: data})
+		}).then(function(response) {
+			console.log(response);
+		});
+		*/
 	};
 
 	const fileInputChange = (evt) => {
@@ -18,31 +54,6 @@ import $ from 'jquery';
 	//SEND TO BACKEND, WAIT FOR RESPONSE FROM SPRUNGE, SET THE DATAURL
 	const submitFile = (evt) => {
 		evt.preventDefault();
-
-		var reader = new FileReader(),
-		    fileOutput = '';
-		reader.onload = function(e) {
-			fileOutput += reader.result;
-		}
-
-		reader.onloadend = function(e) {
-			/*
-			var settings = {
-				"url": "http://sprunge.us",
-				"method": "POST",
-				"timeout": 0,
-				"headers": {
-					"Content-Type": "text/plain",
-					"User-Agent":"PostmanRuntime/7.26.5"
-				},
-				"data": fileOutput
-				}
-			$.ajax(settings).done(function (response) {
-				console.log(response);
-			});
-*/
-		}
-
 		reader.readAsText(file);
 	};
 
